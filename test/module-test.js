@@ -4,24 +4,28 @@ var expect = require('unexpected');
 var System = require('jspm').Loader();
 
 (async function() {
-  var module = await System.import('module.js');
+  var fn = await System.import('function.js');
+  var obj = await System.import('object.js');
 
   describe('async/await', () => {
-    it('should be a function', () => {
-      return expect(module, 'to be a function');
+    describe('function.js', () => {
+      it('should be a function', () => {
+        return expect(fn, 'to be a function');
+      });
+    });
+
+    describe('object.js', () => {
+      it('should be an object', () => {
+        expect(obj, 'to be an object');
+      });
+
+      it('should match signature', () => {
+        expect(obj, 'to satisfy', {
+          object: true
+        });
+      });
     });
   });
 
   run();
 })();
-
-System.import('module.js').then(module => {
-
-  describe('promise.then', () => {
-    it('should be a function', () => {
-      return expect(module, 'to be a function');
-    });
-  });
-
-  run();
-});
