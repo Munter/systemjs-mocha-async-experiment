@@ -1,12 +1,27 @@
 'use strict';
-const expect = require('unexpected');
 
-const System = require('jspm').Loader();
+var expect = require('unexpected');
+var System = require('jspm').Loader();
 
-const module = await System.import('module.js');
+(async function() {
+  var module = await System.import('module.js');
 
-describe('tesing module', () => {
-  it('should be a function', () => {
-    return expect(module, 'to be a function');
+  describe('async/await', () => {
+    it('should be a function', () => {
+      return expect(module, 'to be a function');
+    });
   });
+
+  run();
+})();
+
+System.import('module.js').then(module => {
+
+  describe('promise.then', () => {
+    it('should be a function', () => {
+      return expect(module, 'to be a function');
+    });
+  });
+
+  run();
 });
